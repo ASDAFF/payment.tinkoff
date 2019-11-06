@@ -1,0 +1,13 @@
+{
+  "name": "payment.tinkoff",
+  "version": "1.1.6",
+  "main": "",
+  "ignore": [
+    "source",
+    ".gitignore",
+    ".idea",
+    "bower.json",
+    "gulpfile.js",
+    "package.json"
+  ]
+}

@@ -1,14 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lenovo
- * Date: 14.07.2017
- * Time: 17:03
- *
- * @author Pavel Shulaev (https://rover-it.me)
- */
-
-namespace Rover\Tinkoff;
+namespace Payment\Tinkoff;
 
 use Bitrix\Main\ArgumentNullException;
 use Bitrix\Main\Event as MainEvent;
@@ -17,8 +8,7 @@ use Bitrix\Main\EventResult;
 /**
  * Class Event
  *
- * @package Rover\AmoCRM\Helper
- * @author  Pavel Shulaev (https://rover-it.me)
+ * @package Payment\AmoCRM\Helper
  */
 class Event
 {
@@ -62,11 +52,10 @@ class Event
 
     /**
      * @return $this
-     * @author Pavel Shulaev (https://rover-it.me)
      */
     public function handle()
     {
-        $event = new MainEvent('rover.tinkoff', $this->name, $this->parameters);
+        $event = new MainEvent('payment.tinkoff', $this->name, $this->parameters);
         $event->send();
 
         $results        = $event->getResults();
@@ -95,7 +84,6 @@ class Event
 
     /**
      * @return bool
-     * @author Pavel Shulaev (https://rover-it.me)
      */
     public function isSuccess()
     {
@@ -104,7 +92,6 @@ class Event
 
     /**
      * @return array
-     * @author Pavel Shulaev (https://rover-it.me)
      */
     public function getParameters()
     {
@@ -116,7 +103,6 @@ class Event
      * @throws ArgumentNullException
      * @throws \Bitrix\Main\ArgumentOutOfRangeException
      * @throws \Bitrix\Main\SystemException
-     * @author Pavel Shulaev (https://rover-it.me)
      */
     public static function run()
     {

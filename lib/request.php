@@ -1,8 +1,4 @@
 <?php
-/**
- * Copyright (c) 7/11/2019 Created By/Edited By ASDAFF asdaff.asad@yandex.ru
- */
-
 namespace Payment\Tinkoff;
 
 use Bitrix\Main\Localization\Loc;
@@ -12,6 +8,7 @@ Loc::loadMessages(__FILE__);
 
 /**
  * Class Request
+ *
  * @package Payment\Tinkoff
  */
 class Request
@@ -25,7 +22,6 @@ class Request
     /**
      * @param $method
      * @return string
-     *
      */
     public static function getUrl($method)
     {
@@ -36,7 +32,6 @@ class Request
      * @param $params
      * @return mixed
      * @throws \Exception
-     *
      */
     public static function init($params)
     {
@@ -47,7 +42,6 @@ class Request
      * @param $params
      * @return mixed
      * @throws \Bitrix\Main\ArgumentException
-     *
      */
     public static function refund($params)
     {
@@ -56,7 +50,6 @@ class Request
 
     /**
      * @return string
-     *
      */
     protected static function getPaymentUrl()
     {
@@ -68,7 +61,6 @@ class Request
      * @param $params
      * @return mixed
      * @throws \Bitrix\Main\ArgumentException
-     *
      */
     public static function send($url, $params)
     {

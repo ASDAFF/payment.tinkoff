@@ -28,7 +28,6 @@ if (!Loader::includeModule('payment.tinkoff'))
  * Class payment_tinkoffHandler
  *
  * @package Sale\Handlers\PaySystem
- *
  */
 class payment_tinkoffHandler extends PaySystem\ServiceHandler implements PaySystem\IRefund,  PaySystem\ICheckable
 {
@@ -78,7 +77,6 @@ class payment_tinkoffHandler extends PaySystem\ServiceHandler implements PaySyst
     /**
      * @param Payment $payment
      * @return array
-     *
      */
     public function getParams(Sale\Payment $payment)
     {
@@ -104,7 +102,6 @@ class payment_tinkoffHandler extends PaySystem\ServiceHandler implements PaySyst
      * @param Payment $payment
      * @param         $summ
      * @return PaySystem\ServiceResult
-     *
      */
     public function refund(Sale\Payment $payment, $summ)
     {
@@ -152,7 +149,6 @@ class payment_tinkoffHandler extends PaySystem\ServiceHandler implements PaySyst
     /**
      * @param Payment $payment
      * @param Request $request
-     *
      */
     public function processRequest(Payment $payment, Request $request)
     {
@@ -172,7 +168,6 @@ class payment_tinkoffHandler extends PaySystem\ServiceHandler implements PaySyst
      * @param Payment $payment
      * @return array
      * @throws SystemException
-     *
      */
     public function initPayment(Sale\Payment $payment)
     {
@@ -180,7 +175,6 @@ class payment_tinkoffHandler extends PaySystem\ServiceHandler implements PaySyst
 
         if (empty($params['TERMINAL_ID'])
             || empty($params['ORDER_ID'])
-            //|| empty($params['TINKOFF_PAYMENT_URL'])
             || empty($params['SHOP_SECRET_WORD']))
             throw new SystemException('required params not found');
 
@@ -203,13 +197,11 @@ class payment_tinkoffHandler extends PaySystem\ServiceHandler implements PaySyst
 
     /**
      * @param Payment $payment
-     *
      */
     public function check(Sale\Payment $payment)
     {
         try{
             $request = (array)json_decode(file_get_contents("php://input"));
-            //$request    = Application::getInstance()->getContext()->getRequest();
 
             /** @var $order Order */
             $order      = Order::loadByAccountNumber($request['OrderId']);
@@ -217,12 +209,6 @@ class payment_tinkoffHandler extends PaySystem\ServiceHandler implements PaySyst
                 throw new SystemException('order not found');
 
             $orderID = $order->getId();
-
-            //$paymentCollection = $order->getPaymentCollection();
-
-            /** @var Payment $payment */
-            /*foreach ($paymentCollection as $payment)
-                $this->checkNotification($payment, $request);*/
 
             $this->paymentStatus    = $request['Status'];
             $this->paymentId        = $request['PaymentId'];
@@ -261,17 +247,18 @@ class payment_tinkoffHandler extends PaySystem\ServiceHandler implements PaySyst
             } elseif (Status::isOrderRefunded($this)) {
 
                 $params = $this->getParams($payment);
-                if (isset($params['ORDER_STATUS_REFUNDED']))
-                    $refundStatus = $params['ORDER_STATUS_REFUNDED'];
-
-                if (empty($refundStatus)) $refundStatus = 'N';
 
                 $saleOrder->PayOrder($orderID, 'N');
-                $saleOrder->StatusOrder($orderID, $refundStatus);
 
                 if (isset($params['CANCEL_REFUNDED_ORDER'])
                     && ($params['CANCEL_REFUNDED_ORDER'] == 'Y'))
                     $saleOrder->CancelOrder($orderID, "Y", Loc::getMessage('SALE_TINKOFF_REFUNDED_DESCR'));
+
+                if (isset($params['ORDER_STATUS_REFUNDED']))
+                    $refundStatus = $params['ORDER_STATUS_REFUNDED'];
+
+                if (empty($refundStatus)) $refundStatus = 'N';
+                $saleOrder->StatusOrder($orderID, $refundStatus);
 
                 Log::note('order #' . $orderID . ' refunded');
 
@@ -280,6 +267,20 @@ class payment_tinkoffHandler extends PaySystem\ServiceHandler implements PaySyst
                 $params = $this->getParams($payment);
                 if (isset($params['ORDER_STATUS_AUTHORIZED']))
                     $saleOrder->StatusOrder($orderID, $params['ORDER_STATUS_AUTHORIZED']);
+
+                if (isset($params['ORDER_AUTHORIZED_FLAG_PAYED'])
+                    && ($params['ORDER_AUTHORIZED_FLAG_PAYED'] == 'Y'))
+                {
+                    $saleOrder->PayOrder($orderID, 'Y', true, true, 0, array(
+                        'PAY_VOUCHER_NUM'   => $this->paymentId,
+                        'PAY_VOUCHER_DATE'  => new \Bitrix\Main\Type\Date(),
+                    ));
+
+                    // payment update
+                    $payment->setPaid('Y');
+                    $payment->setField('PAY_VOUCHER_NUM', $this->paymentId);
+                    $payment->save();
+                }
 
                 Log::note('order #' . $orderID . ' authorized, paymentId: ' . $this->paymentId);
 
@@ -299,7 +300,6 @@ class payment_tinkoffHandler extends PaySystem\ServiceHandler implements PaySyst
      * @param array   $request
      * @param Payment $payment
      * @throws \Exception
-     *
      */
     /*public function checkNotification(Payment $payment, array $request)
     {
@@ -323,7 +323,6 @@ class payment_tinkoffHandler extends PaySystem\ServiceHandler implements PaySyst
 
     /**
      * @return string
-     *
      */
     public function getPaymentStatus()
     {

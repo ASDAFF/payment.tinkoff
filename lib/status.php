@@ -1,8 +1,4 @@
 <?php
-/**
- * Copyright (c) 7/11/2019 Created By/Edited By ASDAFF asdaff.asad@yandex.ru
- */
-
 namespace Payment\Tinkoff;
 
 use Bitrix\Main\Localization\Loc;
@@ -11,6 +7,7 @@ use Sale\Handlers\PaySystem\payment_tinkoffHandler;
 Loc::loadMessages(__FILE__);
 /**
  * Class Status
+ *
  * @package Payment\Tinkoff
  */
 class Status
@@ -104,14 +101,13 @@ class Status
      */
     public static function isOrderFailed(payment_tinkoffHandler $handler)
     {
-        return self::is($handler, array(Status::STATUS_CANCELED, Status::STATUS_REVERSED, Status::STATUS_REJECTED));
+        return self::is($handler, array(Status::STATUS_CANCELED, Status::STATUS_REJECTED));
     }
 
     /**
      * @param payment_tinkoffHandler $handler
      * @return bool
      * @throws \Exception
-     * 
      */
     public static function isOrderPaid(payment_tinkoffHandler $handler)
     {
@@ -122,18 +118,16 @@ class Status
      * @param payment_tinkoffHandler $handler
      * @return bool
      * @throws \Exception
-     * 
      */
     public static function isOrderRefunded(payment_tinkoffHandler $handler)
     {
-        return self::is($handler, self::STATUS_REFUNDED);
+        return self::is($handler, [self::STATUS_REFUNDED, Status::STATUS_REVERSED]);
     }
 
     /**
      * @param payment_tinkoffHandler $handler
      * @return bool
      * @throws \Exception
-     * 
      */
     public static function isAuthorized(payment_tinkoffHandler $handler)
     {
@@ -145,7 +139,6 @@ class Status
      * @param                      $statuses
      * @return bool
      * @throws \Exception
-     * 
      */
     public static function is(payment_tinkoffHandler $handler, $statuses)
     {
@@ -162,7 +155,6 @@ class Status
      *
      * @param payment_tinkoffHandler $handler
      * @throws \Exception
-     * 
      */
     private static function check(payment_tinkoffHandler $handler)
     {

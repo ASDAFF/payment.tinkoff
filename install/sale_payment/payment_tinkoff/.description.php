@@ -108,9 +108,9 @@ $data = array(
                     'none'  => Loc::getMessage("SALE_TINKOFF_NDS_none"),
                     'vat0'  => Loc::getMessage("SALE_TINKOFF_NDS_vat0"),
                     'vat10' => Loc::getMessage("SALE_TINKOFF_NDS_vat10"),
-                    'vat18' => Loc::getMessage("SALE_TINKOFF_NDS_vat18"),
+                    'vat20' => Loc::getMessage("SALE_TINKOFF_NDS_vat20"),
                     'vat110'=> Loc::getMessage("SALE_TINKOFF_NDS_vat110"),
-                    'vat118'=> Loc::getMessage("SALE_TINKOFF_NDS_vat118")
+                    'vat120'=> Loc::getMessage("SALE_TINKOFF_NDS_vat120")
                 )
             ),
             "SORT" => 900,
@@ -167,7 +167,7 @@ $data = array(
         ),
         "CANCEL_REFUNDED_ORDER" => array(
             "NAME" => Loc::getMessage("SALE_TINKOFF_CANCEL_REFUNDED_ORDER_NAME"),
-            "DESCRIPTION" => Loc::getMessage("SALE_TINKOFF_CANCEL_REFUNDED_ORDER_NAME"),
+            "DESCRIPTION" => Loc::getMessage("SALE_TINKOFF_CANCEL_REFUNDED_ORDER_DESCR"),
             "INPUT" => array(
                 'TYPE' => 'Y/N',
                 "DEFAULT" => "N"
@@ -183,6 +183,16 @@ $data = array(
                 'OPTIONS' => $resultStatuses
             ),
             "SORT" => 1100,
+            'GROUP' => 'PAYMENT'
+        ),
+        "ORDER_AUTHORIZED_FLAG_PAYED" => array(
+            "NAME" => Loc::getMessage("SALE_TINKOFF_ORDER_AUTHORIZED_FLAG_PAYED_NAME"),
+            "DESCRIPTION" => Loc::getMessage("SALE_TINKOFF_ORDER_AUTHORIZED_FLAG_PAYED_DESCR"),
+            "INPUT" => array(
+                'TYPE' => 'Y/N',
+                "DEFAULT" => "N"
+            ),
+            "SORT" => 1200,
             'GROUP' => 'PAYMENT'
         ),
     )

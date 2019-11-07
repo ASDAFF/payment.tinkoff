@@ -13,6 +13,8 @@ include_once dirname(__FILE__) . '/../lib/dependence.php';
 
 /**
  * Class payment_tinkoffpayment
+ *
+ * 
  */
 Class payment_tinkoff extends CModule
 {
@@ -48,6 +50,7 @@ Class payment_tinkoff extends CModule
 
 	/**
 	 * @return bool
+	 * 
 	 */
 	function InstallEvents()
 	{
@@ -56,6 +59,7 @@ Class payment_tinkoff extends CModule
 
 	/**
 	 * @return bool
+	 * 
 	 */
 	function UnInstallEvents()
 	{
@@ -66,6 +70,7 @@ Class payment_tinkoff extends CModule
      * @param $from
      * @param $to
      * @throws \Bitrix\Main\SystemException
+     * 
      */
 	protected function rewrite($from, $to)
     {
@@ -82,6 +87,7 @@ Class payment_tinkoff extends CModule
 
 	/**
 	 * @return bool
+	 * 
 	 */
 	function UnInstallFiles()
 	{
@@ -95,6 +101,7 @@ Class payment_tinkoff extends CModule
      * @throws \Bitrix\Main\ArgumentException
      * @throws \Bitrix\Main\ObjectPropertyException
      * @throws \Bitrix\Main\SystemException
+     * 
      */
 	protected function getSites()
     {
@@ -109,6 +116,7 @@ Class payment_tinkoff extends CModule
      * @throws \Bitrix\Main\ArgumentException
      * @throws \Bitrix\Main\ObjectPropertyException
      * @throws \Bitrix\Main\SystemException
+     * 
      */
 	function DoInstall()
 	{
@@ -166,6 +174,7 @@ Class payment_tinkoff extends CModule
     /**
      * @param array $arParams
      * @return bool|void
+     * 
      */
     function InstallFiles($arParams = array())
     {
@@ -235,6 +244,9 @@ Class payment_tinkoff extends CModule
         }
     }
 
+	/**
+	 * 
+	 */
 	function DoUninstall()
 	{
         ModuleManager::unRegisterModule($this->MODULE_ID);

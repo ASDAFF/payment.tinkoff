@@ -1,19 +1,25 @@
 <?php
+/**
+ * Copyright (c) 7/11/2019 Created By/Edited By ASDAFF asdaff.asad@yandex.ru
+ */
+
 
 namespace Payment\Tinkoff;
 
 /**
  * Class Log
- *
  * @package Payment\Tinkoff
  */
 class Log
 {
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected static $enabled = false;
 
     /**
      * @return bool
+     * 
      */
     public static function isEnabled()
     {
@@ -22,6 +28,7 @@ class Log
 
     /**
      * @param                      $message
+     * 
      */
     public static function error($message)
     {
@@ -30,6 +37,7 @@ class Log
 
     /**
      * @param                      $message
+     * 
      */
     public static function note($message)
     {
@@ -38,7 +46,8 @@ class Log
 
     /**
      * @param                      $message
-     * @param string $type
+     * @param string               $type
+     * 
      */
     public static function write($message, $type = '')
     {
@@ -63,6 +72,7 @@ class Log
 
     /**
      * @return string
+     * 
      */
     protected static function getFileName()
     {

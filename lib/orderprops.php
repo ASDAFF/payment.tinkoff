@@ -1,4 +1,7 @@
 <?php
+/**
+ * Copyright (c) 7/11/2019 Created By/Edited By ASDAFF asdaff.asad@yandex.ru
+ */
 
 namespace Payment\Tinkoff;
 
@@ -6,7 +9,6 @@ use \Bitrix\Sale\Order;
 
 /**
  * Class OrderProps
- *
  * @package Payment\Tinkoff
  */
 class OrderProps
@@ -14,6 +16,7 @@ class OrderProps
     /**
      * @param Order $orderAccountNum
      * @return array
+     *
      */
     public static function get($orderAccountNum)
     {

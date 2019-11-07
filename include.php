@@ -11,13 +11,11 @@ use \Bitrix\Sale\Order;
 use \Payment\Tinkoff\OrderProps;
 use \Bitrix\Sale\Delivery\Services\Table as DeliveryServices;
 
-if (!Loader::includeModule('sale')) throw new \Bitrix\Main\SystemException('sale module not found');
-
-
+if (!Loader::includeModule('sale'))
+    throw new \Bitrix\Main\SystemException('sale module not found');
 
 class PaymentTinkoffHelper
 {
-
     public static function getExtraParams(payment_tinkoffHandler $handler, $params, Payment $payment)
     {
         Log::note('OrderId=' . $params['ORDER_ID'] . '; Price=' . round($params['SHOULD_PAY'] * 100));
@@ -64,14 +62,15 @@ class PaymentTinkoffHelper
         $requestParams['Token'] = self::generateToken($requestParams, trim($params['SHOP_SECRET_WORD']));
 
         $paySystem = $payment->getPaySystem();
-        if (($paySystem->getField('CAN_PRINT_CHECK') == 'Y')
+        if (($paySystem->getField("CAN_PRINT_CHECK") == 'Y')
             && (!empty($params['TAXATION']))
             && (!empty($params['NDS'])))
-            try {
-            $requestParams['Receipt'] = self::getReceipt($params);
-        } catch (\Exception $error) {
-            Log::error('Init getReceipt:' . $error->getMessage());
-        }
+            try{
+                $requestParams['Receipt'] = self::getReceipt($params);
+            } catch (\Exception $e) {
+                Log::error('Init getReceipt: ' . $e->getMessage());
+            }
+
         return $requestParams;
     }
 
@@ -89,17 +88,16 @@ class PaymentTinkoffHelper
             'Taxation'  => $params['TAXATION'],
         );
 
-        if (($params['RECIPIENT_ID'] != 'email') && ($propsCollection->getUserEmail())) {
+        if ($params['RECIPIENT_ID'] != 'email')
             $receipt['Email'] = $propsCollection->getUserEmail()->getValue();
-        }
 
-        if (($params['RECIPIENT_ID'] != 'phone') && ($propsCollection->getPhone())) {
+        if ($params['RECIPIENT_ID'] != 'phone')
             $receipt['Phone'] = $propsCollection->getPhone()->getValue();
-        }
 
         $items = $order->getBasket()->getBasketItems();
 
-        foreach ($items as $item) {
+        foreach ($items as $item)
+        {
             $data = $item->getFieldValues();
 
             if ($data['PRICE'] <= 0) continue;
@@ -128,9 +126,20 @@ class PaymentTinkoffHelper
             );
         }
 
-        $buildReceipt = \Payment\Tinkoff\Event::run('afterBuildReceipt', $order, $receipt, $params);
-        if (isset($buildReceipt[1])) return $buildReceipt[1];
-        return [];
+        // if particular payment
+        /*if ($params['SHOULD_PAY'] < $order->getPrice()) {
+            $discountValue = -1 * round(($order->getPrice() - $params['SHOULD_PAY']) * 100);
+
+            $receipt['Items'][] = array(
+                'Name'      => 'discount',
+                "Price"     => $discountValue,
+                "Quantity"  => 1,
+                "Amount"    => $discountValue,
+                "Tax"       => $params['NDS'],
+            );
+        }*/
+
+        return $receipt;
     }
 
     private static function getDeliveryRow(Order $order)
@@ -138,9 +147,9 @@ class PaymentTinkoffHelper
         $deliverySystemsId  = reset($order->getDeliverySystemId());
         $result             = null;
 
-        if (intval($deliverySystemsId)) {
+        if (intval($deliverySystemsId))
             $result = DeliveryServices::getRowById($deliverySystemsId);
-        } elseif (strlen($deliverySystemsId)){
+        elseif (strlen($deliverySystemsId)){
             $result = DeliveryServices::getRow(array('filter' => array('=CODE' => $deliverySystemsId)));
         }
 
@@ -168,6 +177,6 @@ class PaymentTinkoffHelper
 
         return hash('sha256', $values);
     }
-};
+}
 
 ?>

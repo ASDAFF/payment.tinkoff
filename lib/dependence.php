@@ -15,7 +15,6 @@ Loc::loadMessages(__FILE__);
 
 /**
  * Class Dependence
- *
  * @package Payment\Tinkoff
  */
 class Dependence
@@ -43,6 +42,7 @@ class Dependence
 
 	/**
 	 * @return mixed
+	 *
 	 */
 	public function getResult()
 	{
@@ -51,6 +51,7 @@ class Dependence
 
 	/**
 	 * @param $error
+	 *
 	 */
 	protected function addError($error)
 	{
@@ -60,6 +61,7 @@ class Dependence
 
     /**
      * @return $this
+     *
      */
 	public function checkTrialElapsedDays()
     {
@@ -73,6 +75,7 @@ class Dependence
 
     /**
      * @return bool
+     *
      */
     public static function isDemoMode()
     {
@@ -81,6 +84,7 @@ class Dependence
 
     /**
      * @return bool
+     *
      */
     public static function isTrialExpired()
     {
@@ -91,6 +95,7 @@ class Dependence
 
     /**
      * @return $this
+     *
      */
 	public function checkTrialExpired()
     {
@@ -102,6 +107,7 @@ class Dependence
 
 	/**
 	 * @return $this
+	 *
 	 */
 	public function checkPhpVer()
 	{
@@ -115,6 +121,7 @@ class Dependence
 
 	/**
 	 * @return $this
+	 *
 	 */
 	public function checkCurl()
 	{
@@ -126,6 +133,7 @@ class Dependence
 
 	/**
 	 * @return $this
+	 *
 	 */
 	public function checkMainVer()
 	{
@@ -138,6 +146,7 @@ class Dependence
     /**
      * @param $dir
      * @return $this
+     *
      */
     public function checkExists($dir)
     {
@@ -149,6 +158,7 @@ class Dependence
 
 	/**
 	 * @return $this
+	 *
 	 */
 	public function checkBase()
 	{
@@ -162,6 +172,7 @@ class Dependence
 
     /**
      * @return $this
+     *
      */
 	public function checkCritical()
     {
@@ -175,6 +186,7 @@ class Dependence
 	/**
 	 * @param $moduleName
 	 * @return bool|string
+	 *
 	 */
 	public static function getVersion($moduleName)
 	{
@@ -207,6 +219,7 @@ class Dependence
 
     /**
      * @return $this
+     *
      */
 	public function reset()
 	{
@@ -218,6 +231,7 @@ class Dependence
 
 	/**
 	 * @return array
+	 *
 	 */
 	public function getErrors()
 	{

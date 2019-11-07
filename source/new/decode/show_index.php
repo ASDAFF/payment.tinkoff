@@ -26,7 +26,7 @@ if (!function_exists(__NAMESPACE__ . '\\___253918798')) {
 
 
 
-echo "<pre>";print_r(___253918798(12));echo "</pre>";
+echo "<pre>";print_r($GLOBALS['____143245411'][10]);echo "</pre>";
 
 
 

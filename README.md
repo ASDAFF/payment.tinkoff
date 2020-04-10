@@ -89,7 +89,7 @@ _Если ваш сайт работает по http, то и в настрой�
 
 **_Кастомизация шаблона кнопки_**
 
-Кастомизация шаблона кнопки, ведущей на форму оплаты банка, приводится стандартным способом. Подробнее об этом в обучающем курсе: https://dev.1c-bitrix.ru/learning/course/?COURSE_ID=43&LESSON_ID=8485. Имя платежной системы — rover_tinkoff.
+Кастомизация шаблона кнопки, ведущей на форму оплаты банка, приводится стандартным способом. Подробнее об этом в обучающем курсе: https://dev.1c-bitrix.ru/learning/course/?COURSE_ID=43&LESSON_ID=8485. Имя платежной системы — payment_tinkoff.
 
 **_Пример кастомизации данных, передаваемых для печати чека_**
 
@@ -99,9 +99,9 @@ _Если ваш сайт работает по http, то и в настрой�
 <?php
 
 $eventManager = \Bitrix\Main\EventManager::getInstance();
-$eventManager->addEventHandler('rover.tinkoff', 'afterBuildReceipt', array('RoverReceipt', 'fix'));
+$eventManager->addEventHandler('payment.tinkoff', 'afterBuildReceipt', array('PaymentTinkoffReceipt', 'fix'));
 
-class RoverReceipt
+class PaymentTinkoffReceipt
 {
     /**
      * @param \Bitrix\Main\Event $event
@@ -127,7 +127,7 @@ class RoverReceipt
 
         $parameters[1] = $fields;
 
-        return new Bitrix\Main\EventResult(Bitrix\Main\EventResult::SUCCESS, $parameters, 'rover.tinkoff');
+        return new Bitrix\Main\EventResult(Bitrix\Main\EventResult::SUCCESS, $parameters, 'payment.tinkoff');
     }
 }
 
